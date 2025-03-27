@@ -5,7 +5,7 @@ import java.util.Map;
 public class Game {
     Board board;
     Deque<Player> players;
-    Dice dice;
+    DiceStrategy dice;
 
     public Game(int boardSize, int diceSize, int playersCount , Map<Integer, Integer> snakePositions, Map<Integer, Integer> ladderPositions)
     {
@@ -18,7 +18,7 @@ public class Game {
             Player player = new Player(i);
             players.add(player);
         }
-        dice = new Dice(diceSize);
+        dice = new NormalDice(diceSize);
     }
 
 
