@@ -12,6 +12,6 @@ public class NormalDice implements DiceStrategy{
 
     @Override
     public int roll() {
-        return random.nextInt(6)+1;
+        return random.nextInt(this.size)+1;
     }
 }

@@ -1,13 +1,14 @@
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 import java.util.Map;
 
 public class Game {
     Board board;
     Deque<Player> players;
-    DiceStrategy dice;
+    List<DiceStrategy> dices;
 
-    public Game(int boardSize, int diceSize, int playersCount , Map<Integer, Integer> snakePositions, Map<Integer, Integer> ladderPositions)
+    public Game(int boardSize, List<DiceStrategy> dices, int playersCount , Map<Integer, Integer> snakePositions, Map<Integer, Integer> ladderPositions)
     {
         board = Board.getInstance(boardSize);
         board.addLadders(ladderPositions);
@@ -18,7 +19,7 @@ public class Game {
             Player player = new Player(i);
             players.add(player);
         }
-        dice = new NormalDice(diceSize);
+        this.dices = dices;
     }
 
 
@@ -29,9 +30,15 @@ public class Game {
             Player currentPlayer = players.pop();
             int currentPosition = currentPlayer.position;
             System.out.println("Player " + currentPlayer.getId() + " is at position " + currentPosition);
-            int roll = dice.roll();
-            System.out.println("Rolling dice");
-            System.out.println("Dice rolled a " + roll);
+            int roll = 0;
+            for(int i=0;i<dices.size();i++)
+            {
+                int curRoll = dices.get(i).roll();
+                roll += curRoll;
+                System.out.println("Rolling dice");
+                System.out.println("Dice rolled a " + curRoll);
+            }
+
             int newPosition = currentPosition + roll;
             System.out.println("Moving to position " + newPosition);
             if(board.hasSnake(newPosition))

@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -10,8 +7,18 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("please enter the board size");
         int boardSize = scanner.nextInt();
-        System.out.println("please enter the dice size");
-        int diceSize = scanner.nextInt();
+        System.out.println("please enter the number of dices");
+        int diceCount = scanner.nextInt();
+        List<DiceStrategy> dices = new ArrayList<>();
+
+        for(int i=0;i<diceCount;i++)
+        {
+            System.out.println("please enter the dice size");
+            int diceSize = scanner.nextInt();
+            DiceStrategy dice = new NormalDice(diceSize);
+            dices.add(dice);
+        }
+
         System.out.println("Please enter the number of players");
         int players = scanner.nextInt();
         System.out.println("Please enter the number of snakes");
@@ -24,6 +31,10 @@ public class Main {
         for(int i=0;i<snakesCount;i++)
         {
             int head = random.nextInt(1, boardSize-1);
+            while(snakePositions.containsKey(head))
+            {
+                head = random.nextInt(1, boardSize-1);
+            }
             int tail = random.nextInt(1, head-1);
             snakePositions.put(head, tail);
         }
@@ -31,7 +42,7 @@ public class Main {
         for(int i=0;i<ladderCount;i++)
         {
             int start = random.nextInt(1, boardSize-1);
-            while(snakePositions.containsKey(start))
+            while(snakePositions.containsKey(start) || ladderPositions.containsKey(start))
             {
                 start = random.nextInt(1, boardSize-1);
             }
@@ -39,7 +50,7 @@ public class Main {
             ladderPositions.put(start, end);
         }
 
-        Game game = new Game(boardSize, diceSize, players, snakePositions, ladderPositions);
+        Game game = new Game(boardSize, dices, players, snakePositions, ladderPositions);
         game.startGame();
     }
 }
