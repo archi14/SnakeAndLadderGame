@@ -1,33 +1,50 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
     Board board;
-    Deque<Player> players;
+    Queue<Player> players;
     List<DiceStrategy> dices;
-
-    public Game(int boardSize, List<DiceStrategy> dices, int playersCount , Map<Integer, Integer> snakePositions, Map<Integer, Integer> ladderPositions)
+    Scanner scanner;
+    public Game(int boardSize)
     {
+        scanner = new Scanner(System.in);
+        this.dices = new ArrayList<>();
+        this.players = new LinkedList<>();
         board = Board.getInstance(boardSize);
-        board.addLadders(ladderPositions);
-        board.addSnakes(snakePositions);
-        players = new ArrayDeque<>();
+        board.addLadders();
+        board.addSnakes();
+        intializePlayers();
+        initializeDices();
+    }
+
+    public void intializePlayers()
+    {
+        System.out.println("Please enter the number of players");
+        int playersCount = scanner.nextInt();
         for(int i=0;i<playersCount;i++)
         {
             Player player = new Player(i);
-            players.add(player);
+            this.players.add(player);
         }
-        this.dices = dices;
+
     }
-
-
+    public void initializeDices()
+    {
+        System.out.println("please enter the number of dices");
+        int diceCount = scanner.nextInt();
+        for(int i=0;i<diceCount;i++)
+        {
+            System.out.println("please enter the dice size");
+            int diceSize = scanner.nextInt();
+            DiceStrategy dice = new NormalDice(diceSize);
+            this.dices.add(dice);
+        }
+    }
     public void startGame()
     {
         while(true)
         {
-            Player currentPlayer = players.pop();
+            Player currentPlayer = players.poll();
             int currentPosition = currentPlayer.position;
             System.out.println("Player " + currentPlayer.getId() + " is at position " + currentPosition);
             int roll = 0;

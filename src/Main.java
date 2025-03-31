@@ -7,50 +7,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("please enter the board size");
         int boardSize = scanner.nextInt();
-        System.out.println("please enter the number of dices");
-        int diceCount = scanner.nextInt();
-        List<DiceStrategy> dices = new ArrayList<>();
 
-        for(int i=0;i<diceCount;i++)
-        {
-            System.out.println("please enter the dice size");
-            int diceSize = scanner.nextInt();
-            DiceStrategy dice = new NormalDice(diceSize);
-            dices.add(dice);
-        }
-
-        System.out.println("Please enter the number of players");
-        int players = scanner.nextInt();
-        System.out.println("Please enter the number of snakes");
-        int snakesCount = scanner.nextInt();
-        System.out.println("Please enter the number of ladders");
-        int ladderCount = scanner.nextInt();
-        Map<Integer, Integer> snakePositions = new HashMap<>();
-        Map<Integer, Integer> ladderPositions = new HashMap<>();
-        Random random = new Random();
-        for(int i=0;i<snakesCount;i++)
-        {
-            int head = random.nextInt(1, boardSize-1);
-            while(snakePositions.containsKey(head))
-            {
-                head = random.nextInt(1, boardSize-1);
-            }
-            int tail = random.nextInt(1, head-1);
-            snakePositions.put(head, tail);
-        }
-
-        for(int i=0;i<ladderCount;i++)
-        {
-            int start = random.nextInt(1, boardSize-1);
-            while(snakePositions.containsKey(start) || ladderPositions.containsKey(start))
-            {
-                start = random.nextInt(1, boardSize-1);
-            }
-            int end = random.nextInt(start, boardSize-1);
-            ladderPositions.put(start, end);
-        }
-
-        Game game = new Game(boardSize, dices, players, snakePositions, ladderPositions);
+        Game game = new Game(boardSize);
         game.startGame();
     }
 }
