@@ -40,6 +40,7 @@ public class Game {
             this.dices.add(dice);
         }
     }
+
     public void startGame()
     {
         while(true)

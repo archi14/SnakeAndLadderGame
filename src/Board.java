@@ -65,7 +65,7 @@ public class Board {
     {
         if(board == null)
         {
-            return new Board(size);
+            board = new Board(size);
         }
         return board;
     }
